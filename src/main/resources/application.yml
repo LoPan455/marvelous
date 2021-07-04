@@ -1,0 +1,4 @@
+marvel-api:
+  base-url: "https://"
+  public-key: "my-public-api-key"
+  private-key: "my-private-api-key"
