@@ -13,7 +13,7 @@ class MarvelAuthGenerator(
 ) {
 
     fun buildAuthString(timeStamp: Instant): MarvelAuthComponents {
-        val preHashString = "${timeStamp.toEpochMilli()}$marvelApiPublicKey$marvelApiPrivateKey"
+        val preHashString = "${timeStamp.toEpochMilli()}$marvelApiPrivateKey$marvelApiPublicKey"
         val hashed: String = DigestUtils.md5Hex(preHashString)
         return MarvelAuthComponents(
             ts = timeStamp.toEpochMilli().toString(),

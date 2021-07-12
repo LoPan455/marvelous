@@ -9,9 +9,5 @@ import org.springframework.context.ApplicationContext
 class MarvelousApplication
 
 fun main(args: Array<String>) {
-	val context: ApplicationContext = runApplication<MarvelousApplication>(*args)
-	val foo: MarvelApiService = context.getBean(MarvelApiService::class.java)
-	foo.getCharacters().subscribe {
-		println(it.statusCode())
-	}
+	runApplication<MarvelousApplication>(*args)
 }
