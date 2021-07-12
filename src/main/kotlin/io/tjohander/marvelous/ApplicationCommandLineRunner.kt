@@ -11,6 +11,6 @@ class ApplicationCommandLineRunner(
 ) : CommandLineRunner {
 
     override fun run(vararg args: String): Unit  {
-        println(apiService.getCharacters())
+        println(apiService.getCharactersStartsWith("Cat"))
     }
 }
