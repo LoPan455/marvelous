@@ -13,13 +13,13 @@ import java.time.Instant
 
 @Service
 class MarvelApiService(
-    @Autowired val marvelApiClient: WebClient,
+    @Autowired val client: WebClient,
     @Value("\${marvel-api.public-key}") val marvelApiPublicKey: String,
     @Value("\${marvel-api.private-key}") val marvelApiPrivateKey: String
 ) {
     fun getCharactersStartsWith(searchString: String): Mono<CharacterDataWrapper> {
         val authObject = buildAuthString(Instant.now(), marvelApiPublicKey, marvelApiPrivateKey)
-        return marvelApiClient
+        return client
             .get()
             .uri { uriBuilder ->
                 uriBuilder.path("/v1/public/characters")

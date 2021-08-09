@@ -23,4 +23,6 @@
 hs_err_pid*
 /.gradle/
 /.idea/
-/src/main/resources/applicaiton-overrides.yml
+/build/
+
+/src/main/resources/application-overrides.yml
