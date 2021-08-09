@@ -1,10 +1,12 @@
 package io.tjohander.marvelous.service
 
+import io.tjohander.marvelous.model.api.marvel.Character
 import io.tjohander.marvelous.model.api.marvel.ErrorContainer
 import io.tjohander.marvelous.model.api.marvel.CharacterDataWrapper
 import io.tjohander.marvelous.util.MarvelAuthGenerator.Companion.buildAuthString
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.*
@@ -31,6 +33,7 @@ class MarvelApiService(
             }
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError) { it.bodyToMono<ErrorContainer>() }
-            .bodyToMono()
+            .bodyToMono(CharacterDataWrapper::class.java)
+            .log()
     }
 }

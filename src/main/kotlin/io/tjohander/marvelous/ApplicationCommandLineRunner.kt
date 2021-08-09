@@ -11,6 +11,9 @@ class ApplicationCommandLineRunner(
 ) : CommandLineRunner {
 
     override fun run(vararg args: String): Unit  {
-        println(apiService.getCharactersStartsWith("Cat"))
+        val response = apiService.getCharactersStartsWith("Magneto")
+        response.subscribe {
+            println(it)
+        }
     }
 }
