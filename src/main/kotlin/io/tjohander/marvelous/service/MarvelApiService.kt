@@ -1,12 +1,10 @@
 package io.tjohander.marvelous.service
 
-import io.tjohander.marvelous.model.api.marvel.Character
 import io.tjohander.marvelous.model.api.marvel.ErrorContainer
-import io.tjohander.marvelous.model.api.marvel.CharacterDataWrapper
+import io.tjohander.marvelous.model.api.marvel.DataWrapper
 import io.tjohander.marvelous.util.MarvelAuthGenerator.Companion.buildAuthString
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.*
@@ -19,7 +17,7 @@ class MarvelApiService(
     @Value("\${marvel-api.public-key}") val marvelApiPublicKey: String,
     @Value("\${marvel-api.private-key}") val marvelApiPrivateKey: String
 ) {
-    fun getCharactersStartsWith(searchString: String): Mono<CharacterDataWrapper> {
+    fun getCharactersStartsWith(searchString: String): Mono<DataWrapper> {
         val authObject = buildAuthString(Instant.now(), marvelApiPublicKey, marvelApiPrivateKey)
         return client
             .get()
@@ -33,7 +31,7 @@ class MarvelApiService(
             }
             .retrieve()
             .onStatus(HttpStatus::is4xxClientError) { it.bodyToMono<ErrorContainer>() }
-            .bodyToMono(CharacterDataWrapper::class.java)
+            .bodyToMono(DataWrapper::class.java)
             .log()
     }
 }
