@@ -10,8 +10,9 @@ class ApplicationCommandLineRunner(
     @Autowired val apiService: MarvelApiService
 ) : CommandLineRunner {
 
+    // Just a sanity check to make sure we're setup to call downstream ok
     override fun run(vararg args: String): Unit  {
-        val response = apiService.getCharactersStartsWith("Magneto")
+        val response = apiService.findCharacterByStartingString("Magneto")
         response.subscribe {
             println(it)
         }

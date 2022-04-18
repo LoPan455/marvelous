@@ -26,7 +26,7 @@ class MarvelousApplicationTests(
 
     @Test
     fun testMakeMarvelApiCall() {
-        val result = apiService.getCharactersStartsWith("Sp").block()
+        val result = apiService.getCharacterById("Sp").block()
         println(result)
     }
 

@@ -6,10 +6,25 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.time.Instant
 
-class MarvelAuthGenerator {
+@Component
+class MarvelAuthGenerator(
+    @Value("\${marvel-api.public-key}") val marvelApiPublicKey: String,
+    @Value("\${marvel-api.private-key}") val marvelApiPrivateKey: String
+) {
+    fun getAuthString() = buildAuthString(
+        Instant.now(),
+        marvelApiPublicKey,
+        marvelApiPrivateKey
+    )
+
     companion object {
-        fun buildAuthString(timeStamp: Instant, marvelApiPublicKey: String, marvelApiPrivateKey: String): MarvelAuthComponents {
-            val preHashString = "${timeStamp.toEpochMilli()}$marvelApiPrivateKey$marvelApiPublicKey"
+        fun buildAuthString(
+            timeStamp: Instant,
+            marvelApiPublicKey: String,
+            marvelApiPrivateKey: String
+        ): MarvelAuthComponents {
+            val preHashString =
+                "${timeStamp.toEpochMilli()}$marvelApiPrivateKey$marvelApiPublicKey"
             val hashed: String = DigestUtils.md5Hex(preHashString)
             return MarvelAuthComponents(
                 ts = timeStamp.toEpochMilli().toString(),
