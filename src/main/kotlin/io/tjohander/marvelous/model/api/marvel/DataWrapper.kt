@@ -3,10 +3,10 @@ package io.tjohander.marvelous.model.api.marvel
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class DataWrapper(
+data class DataWrapper<T>(
     val code: Int,
     val status: String,
-    val data: DataContainer<Any>,
+    val data: DataContainer<T>,
     val etag: String,
     val copyright: String,
     val attributionText: String,

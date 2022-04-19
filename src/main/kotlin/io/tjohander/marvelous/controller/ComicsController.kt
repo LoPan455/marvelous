@@ -1,5 +1,6 @@
 package io.tjohander.marvelous.controller
 
+import io.tjohander.marvelous.model.api.marvel.Comic
 import io.tjohander.marvelous.model.api.marvel.DataWrapper
 import io.tjohander.marvelous.service.MarvelApiService
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,5 +19,6 @@ class ComicsController(
 
     @GetMapping("/{id}")
     @ResponseBody
-    fun getComicById(@PathVariable id: Int): Mono<DataWrapper> = service.getComicById(id)
+    fun getComicById(@PathVariable id: Int): Mono<DataWrapper<*>> = service
+        .getComicById(id)
 }

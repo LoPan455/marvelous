@@ -1,5 +1,7 @@
 package io.tjohander.marvelous.service
 
+import io.tjohander.marvelous.model.api.marvel.Character
+import io.tjohander.marvelous.model.api.marvel.Comic
 import io.tjohander.marvelous.model.api.marvel.ErrorContainer
 import io.tjohander.marvelous.model.api.marvel.DataWrapper
 import io.tjohander.marvelous.util.MarvelAuthGenerator
@@ -17,7 +19,8 @@ class MarvelApiService(
     @Autowired val client: WebClient,
     @Autowired val authService: MarvelAuthGenerator
 ) {
-    fun findCharacterByStartingString(searchString: String): Mono<DataWrapper> {
+    fun findCharacterByStartingString(searchString: String):
+            Mono<DataWrapper<*>> {
         return client
             .get()
             .uri { uriBuilder ->
@@ -35,7 +38,7 @@ class MarvelApiService(
             .log()
     }
 
-    fun getCharacterById(id: Int): Mono<DataWrapper> {
+    fun getCharacterById(id: Int): Mono<DataWrapper<*>> {
         return client
             .get()
             .uri { uriBuilder ->
@@ -52,7 +55,7 @@ class MarvelApiService(
             .log()
     }
 
-    fun getComicsByCharacterId(characterId: Int): Mono<DataWrapper> =
+    fun getComicsByCharacterId(characterId: Int): Mono<DataWrapper<*>> =
         client
             .get()
             .uri { uriBuilder ->
