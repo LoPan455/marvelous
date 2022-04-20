@@ -15,19 +15,21 @@ class CharacterController(
 
     @GetMapping("/find")
     @ResponseBody
-    fun findCharacterByStartingString(@RequestParam q: String): Mono<DataWrapper> {
+    fun findCharacterByStartingString(@RequestParam q: String):
+            Mono<DataWrapper<*>> {
         return service.findCharacterByStartingString(q)
     }
 
     @GetMapping("/{characterId}")
     @ResponseBody
-    fun getCharacterById(@PathVariable characterId: Int): Mono<DataWrapper> {
+    fun getCharacterById(@PathVariable characterId: Int): Mono<DataWrapper<*>> {
         return service.getCharacterById(characterId)
     }
 
     @GetMapping("/{characterId}/comics")
     @ResponseBody
-    fun getComicsByCharacterId(@PathVariable characterId: Int): Mono<DataWrapper> {
+    fun getComicsByCharacterId(@PathVariable characterId: Int):
+            Mono<DataWrapper<*>> {
         return service.getComicsByCharacterId(characterId)
     }
 }

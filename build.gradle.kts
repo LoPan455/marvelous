@@ -19,6 +19,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation ("com.github.ben-manes.caffeine:caffeine:3.0.6")
+	implementation ("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("commons-codec:commons-codec:1.15")

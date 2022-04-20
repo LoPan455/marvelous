@@ -5,20 +5,20 @@ import io.tjohander.marvelous.model.api.marvel.Comic
 import io.tjohander.marvelous.model.api.marvel.ErrorContainer
 import io.tjohander.marvelous.model.api.marvel.DataWrapper
 import io.tjohander.marvelous.util.MarvelAuthGenerator
-import io.tjohander.marvelous.util.MarvelAuthGenerator.Companion.buildAuthString
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.*
 import reactor.core.publisher.Mono
-import java.time.Instant
+import java.net.URI
 
 @Service
 class MarvelApiService(
     @Autowired val client: WebClient,
     @Autowired val authService: MarvelAuthGenerator
 ) {
+    @Cacheable("characters")
     fun findCharacterByStartingString(searchString: String):
             Mono<DataWrapper<*>> {
         return client
@@ -37,6 +37,7 @@ class MarvelApiService(
             .bodyToMono(DataWrapper::class.java)
             .log()
     }
+
 
     fun getCharacterById(id: Int): Mono<DataWrapper<*>> {
         return client
@@ -86,4 +87,31 @@ class MarvelApiService(
             .onStatus(HttpStatus::is4xxClientError) { it.bodyToMono<ErrorContainer>() }
             .bodyToMono(DataWrapper::class.java)
             .log()
+
+    private fun getResourceByUri(uri: URI): Mono<DataWrapper<*>> =
+        client
+            .get()
+            .uri { uriBuilder ->
+                val authObject = authService.getAuthString()
+                uriBuilder
+                    .path(uri.path)
+                    .queryParam("ts", authObject.ts)
+                    .queryParam("apikey", authObject.publicKey)
+                    .queryParam("hash", authObject.md5Hash)
+                    .build()
+            }
+            .retrieve()
+            .onStatus(HttpStatus::is4xxClientError) { it.bodyToMono<ErrorContainer>() }
+            .bodyToMono(DataWrapper::class.java)
+
+//    fun findFirstAppearanceByCharacterId(characterId: Int): Unit {
+//        // holds comics while paging results
+//        val aggregatedList: MutableList<Comic>
+//        val
+//
+//    }
+
+    fun findCharacterId(character: Character) {
+
+    }
 }
