@@ -3,6 +3,7 @@ package io.tjohander.marvelous.controller
 import io.tjohander.marvelous.model.api.marvel.DataWrapper
 import io.tjohander.marvelous.service.MarvelApiService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
@@ -15,6 +16,7 @@ class CharacterController(
 
     @GetMapping("/find")
     @ResponseBody
+    @Cacheable("characters")
     fun findCharacterByStartingString(@RequestParam q: String):
             Mono<DataWrapper<*>> {
         return service.findCharacterByStartingString(q)
